@@ -1,1 +1,3 @@
-aio-pika==7.1.0
+aio-pika==7.1.*
+sqlalchemy==1.3.*
+alembic==1.8.*
