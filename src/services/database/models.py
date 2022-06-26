@@ -5,6 +5,7 @@ from sqlalchemy import (
     TIMESTAMP,
     Column,
     Enum,
+    Float,
     ForeignKey,
     Integer,
     Sequence,
@@ -105,16 +106,19 @@ class RangeEventGroup(AuditMixin, Base):
     firing_type = Column(Enum(FiringType), nullable=False, index=True)
     expected_number_of_shots = Column(Integer)
     
-class RangeEventGroup(AuditMixin, Base):
-    __tablename__ = "range_event_group"
+class RangeEventShot(AuditMixin, Base):
+    __tablename__ = "range_event_shot"
 
     id = Column(postgresql.UUID(as_uuid=True), primary_key=True, unique=True, index=True, default=uuid.uuid4)
     shooting_range = relationship("ShootingRange", secondary=range_shooter_association, lazy="joined")
     range_shooter_id = Column(Integer)
     sequence_number = Column(Integer)
     timestamp = Column(TIMESTAMP, nullable=False, server_default=func.now())
-    event_type = Column(Integer)
-    group_ordinal = Column(Integer)
-    firing_type = Column(Enum(FiringType), nullable=False, index=True)
-    expected_number_of_shots = Column(Integer)
-    
+    shot_id = Column(Integer)
+    shot_value = Column(Integer)
+    shot_value_decimal = Column(Integer)
+    x_coord = Column(Float)
+    y_coord = Column(Float)
+    shot_timestamp = Column(Integer)
+    caliber = Column(Integer)
+    shot_attr = Column(Integer)
