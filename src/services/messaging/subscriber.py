@@ -26,7 +26,8 @@ class Subscriber:
 
             # Declaring queue
             queue = await channel.declare_queue(
-                queue_name
+                queue_name,
+                durable=True
             )
 
             # Consume messages
