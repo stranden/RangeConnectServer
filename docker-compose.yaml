@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+  rangeconnectserver:
+    build: .
+    hostname: 'rangeconnectserver'
+    container_name: 'rangeconnectserver'
+    restart: always
+    environment:
+      - RABBITMQ_HOST=192.168.234.147
+      - RABBITMQ_USER=rangeconnect
+      - RABBITMQ_PASS=Uivq9ACXS49W
+    networks:
+      - range-connect
+networks:
+  range-connect:
+    driver: bridge
