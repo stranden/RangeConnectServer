@@ -9,6 +9,33 @@ services:
       - RABBITMQ_HOST=192.168.234.147
       - RABBITMQ_USER=rangeconnect
       - RABBITMQ_PASS=Uivq9ACXS49W
+      - DATABASE_HOST=postgres
+      - DATABASE_USER=rangeconnect
+      - DATABASE_PASS=MzqGbe#o8AUn
+      - DATABASE_DB=rangeconnect
+    networks:
+      - range-connect
+  postgres:
+    container_name: pg_container
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: rangeconnect
+      POSTGRES_PASSWORD: rangeconnect
+      POSTGRES_DB: rangeconnect
+    ports:
+      - "5432:5432"
+    networks:
+      - range-connect
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: rangeconnect
+    ports:
+      - "5080:80"
     networks:
       - range-connect
 networks:
