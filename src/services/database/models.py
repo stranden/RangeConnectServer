@@ -41,7 +41,7 @@ class Event(Base):
     name = Column(String, nullable=False)
     startdate =  Column(TIMESTAMP, nullable=False)
     enddate =  Column(TIMESTAMP, nullable=False)
-    staus = Column(Integer, nullable=False, default=0)
+    status = Column(Integer, nullable=False, default=0)
 
 
 class EventRange(Base):
@@ -52,8 +52,43 @@ class EventRange(Base):
     shooting_range = Column(postgresql.UUID(as_uuid=True), ForeignKey("shooting_range.id"), nullable=True, index=True)
 
 
-class RangeManufactor(AuditMixin, Base):
+class Manufactor(AuditMixin, Base):
     __tablename__ = "manufactor"
 
     id = Column(postgresql.UUID(as_uuid=True), primary_key=True, unique=True, index=True, default=uuid.uuid4)
     name = Column(String, nullable=False)
+
+
+class ShootingRange(Base):
+    __tablename__ = "shooting_range"
+
+    id = Column(postgresql.UUID(as_uuid=True), primary_key=True, unique=True, index=True, default=uuid.uuid4)
+    shooting_club = Column(postgresql.UUID(as_uuid=True), ForeignKey("shooting_club.id"), nullable=True, index=True)
+    manufactor = Column(postgresql.UUID(as_uuid=True), ForeignKey("manufactor.id"), nullable=True, index=True)
+    name = Column(String, nullable=False)
+    lanes = Column(Integer, nullable=False)
+    first_lane = Column(String, nullable=False)
+
+
+class ShootingRange(Base):
+    __tablename__ = "shooting_range"
+
+    id = Column(postgresql.UUID(as_uuid=True), primary_key=True, unique=True, index=True, default=uuid.uuid4)
+    shooting_club = Column(postgresql.UUID(as_uuid=True), ForeignKey("shooting_club.id"), nullable=True, index=True)
+    manufactor = Column(postgresql.UUID(as_uuid=True), ForeignKey("manufactor.id"), nullable=True, index=True)
+    name = Column(String, nullable=False)
+    lanes = Column(Integer, nullable=False)
+    first_lane = Column(String, nullable=False)
+
+
+class RangeEventShooter(AuditMixin, Base):
+    __tablename__ = "range_event_shooter"
+
+    id = Column(postgresql.UUID(as_uuid=True), primary_key=True, unique=True, index=True, default=uuid.uuid4)
+    shooting_range = Column(postgresql.UUID(as_uuid=True), ForeignKey("shooting_range.id"), nullable=True, index=True)
+    start_number = Column(Integer, nullable=False)
+    name = Column(String, nullable=False)
+    club = Column(String, nullable=True)
+    group = Column(String, nullable=True)
+    first_lane = Column(String, nullable=False)
+
