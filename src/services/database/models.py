@@ -16,7 +16,7 @@ from sqlalchemy import (
 from sqlalchemy.dialects import postgresql
 from sqlalchemy.orm import relationship
 
-from .base import AuditMixin, Base
+from .base import AuditMixin, Base, metadata
 
 class SeriesType(PyEnum):
     SIGHT = "sight"
