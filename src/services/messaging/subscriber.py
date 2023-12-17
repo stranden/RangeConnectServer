@@ -20,22 +20,31 @@ class Subscriber:
             
             if range_event.get("scoreEventType") == "ATHLETE":
                 if range_event.get("startNumber") != "0":
-                    try:
-                        db.add(
-                            models.RangeEventShooter(
-                                shooting_range=range_event.get("shootingRangeID"),
-                                firing_point=range_event.get("firingPointID"),
-                                start_number=range_event.get("startNumber"),
-                                name=range_event.get("name"),
-                                club=range_event.get("team"),
-                                group=range_event.get("group")
+                    shooter: models.RangeEventShooter = (db.query(models.RangeEventShooter)
+                                                            .filter(
+                                                                models.RangeEventShooter.shooting_range == range_event.get("shootingRangeID"),
+                                                                models.RangeEventShooter.firing_point == range_event.get("firingPointID"),
+                                                                models.RangeEventShooter.start_number == range_event.get("startNumber"))
+                                                            .first())
+                    if not shooter:
+                        try:
+                            db.add(
+                                models.RangeEventShooter(
+                                    shooting_range=range_event.get("shootingRangeID"),
+                                    firing_point=range_event.get("firingPointID"),
+                                    start_number=range_event.get("startNumber"),
+                                    name=range_event.get("name"),
+                                    club=range_event.get("team"),
+                                    group=range_event.get("group")
+                                )
                             )
-                        )
-                        db.commit()
-                        logger.info(f"Inserted ATHLETE to DB: {range_event}")
-                    finally:
-                        db.close()
-                        await message.ack()
+                            db.commit()
+                            logger.info(f"Inserted ATHLETE to DB: {range_event}")
+                        finally:
+                            db.close()
+                            await message.ack()
+                    else:
+                        logger.info(f"ATHLETE is already in DB")
                 else:
                     logger.info(f"ATHLETE is not inserted to DB: {range_event}")
 
