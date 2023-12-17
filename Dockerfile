@@ -1,4 +1,4 @@
-FROM python:3.9.10-slim
+FROM python:3.11.7-slim
 
 WORKDIR /usr/src/app
 
@@ -6,5 +6,8 @@ COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY src .
+COPY entrypoint.sh .
 
-CMD [ "python", "./main.py" ]
+RUN chmod +x entrypoint.sh
+
+ENTRYPOINT ["./entrypoint.sh"]
