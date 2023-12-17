@@ -77,12 +77,6 @@ class Subscriber:
                     logger.info(f"SHOT is not inserted to DB: {range_event}")
 
 
-    #async def proccess_message(self, message: AbstractIncomingMessage) -> None:
-    #    async with message.process(ignore_processed=True):
-    #        logger.info(f"Consumed message: {json.loads(message.body)}")
-    #        await asyncio.sleep(1)
-    #        await message.ack()
-
     async def subscribe_range_events(self) -> None:
         connection = await aio_pika.connect(self.amqp_connection_uri)
         queue_name = "shooting_range_events"
