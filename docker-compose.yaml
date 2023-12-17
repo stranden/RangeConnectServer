@@ -6,7 +6,8 @@ services:
     container_name: 'rangeconnectserver'
     restart: always
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     environment:
       - RABBITMQ_HOST=192.168.234.118
       - RABBITMQ_USER=rangeconnect
@@ -30,6 +31,11 @@ services:
       - "5432:5432"
     networks:
       - range-connect
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
   pgadmin:
     container_name: pgadmin4_container
     image: dpage/pgadmin4
