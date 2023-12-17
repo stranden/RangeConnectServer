@@ -4,6 +4,6 @@ from sqlalchemy.orm import Session, sessionmaker
 
 from .models import *
 
-engine = create_engine(settings.DATABASE_URI, pool_pre_ping=True, future=True, echo=True) # echo=True to view sql queries in logs
+engine = create_engine(settings.DATABASE_URI, pool_pre_ping=True, future=True) # echo=True to view sql queries in logs
 
 DBSession: Session = sessionmaker(bind=engine, future=True)
