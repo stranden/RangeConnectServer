@@ -97,7 +97,6 @@ class RangeEventShooter(AuditMixin, Base):
     name = Column(String, nullable=False)
     club = Column(String, nullable=True)
     group = Column(String, nullable=True)
-    first_lane = Column(String, nullable=False)
 
 
 class RangeEventShot(AuditMixin, Base):

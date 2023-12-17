@@ -5,14 +5,17 @@ services:
     hostname: 'rangeconnectserver'
     container_name: 'rangeconnectserver'
     restart: always
+    depends_on:
+      - postgres
     environment:
-      - RABBITMQ_HOST=192.168.234.111
+      - RABBITMQ_HOST=192.168.234.118
       - RABBITMQ_USER=rangeconnect
       - RABBITMQ_PASS=Uivq9ACXS49W
       - DATABASE_HOST=postgres
       - DATABASE_USER=rangeconnect
-      - DATABASE_PASS=MzqGbe#o8AUn
+      - DATABASE_PASS=rangeconnect
       - DATABASE_DB=rangeconnect
+      - DATABASE_SCHEMA=rangeconnect
     networks:
       - range-connect
   postgres:

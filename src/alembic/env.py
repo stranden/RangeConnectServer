@@ -1,11 +1,11 @@
 import os
 from logging.config import fileConfig
 
-from sqlalchemy import engine_from_config
-from sqlalchemy import pool
+from sqlalchemy import pool, engine_from_config
+
 
 from alembic import context
-from ..services.database.models import Base
+from services.database.models import Base
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -31,6 +31,12 @@ target_metadata = Base.metadata
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
+
+def include_object(object, name, type_, reflected, compare_to):
+    if type_ == "table" and object.schema != target_metadata.schema:
+        return False
+    else:
+        return True
 
 
 def run_migrations_offline() -> None:
@@ -72,12 +78,15 @@ def run_migrations_online() -> None:
 
     with connectable.connect() as connection:
         context.configure(
-            connection=connection, 
+            connection=connection,
             target_metadata=target_metadata,          
-            version_table_schema=target_metadata.schema,            
+            version_table_schema=target_metadata.schema,
+            include_schemas=True,
+            include_object = include_object         
         )
-
         with context.begin_transaction():
+            context.execute(f'create schema if not exists {target_metadata.schema};')
+            context.execute(f'set search_path to {target_metadata.schema}')
             context.run_migrations()
 
 if context.is_offline_mode():
