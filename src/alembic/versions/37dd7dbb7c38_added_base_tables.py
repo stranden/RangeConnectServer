@@ -41,7 +41,7 @@ def upgrade() -> None:
     sa.Column('shooting_range', sa.UUID(), nullable=False),
     sa.Column('firing_point', sa.String(), nullable=False),
     sa.Column('start_number', sa.String(), nullable=False),
-    sa.Column('series_type', sa.Enum('SIGHT', 'MATCH', name='seriestype'), nullable=False),
+    sa.Column('series_type', sa.Enum('SIGHT', 'MATCH', 'SHOOTOFF', name='seriestype'), nullable=False),
     sa.Column('shot_id', sa.Integer(), nullable=False),
     sa.Column('shot_value', sa.Float(), nullable=False),
     sa.Column('shot_value_decimal', sa.Float(), nullable=False),

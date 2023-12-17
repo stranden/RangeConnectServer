@@ -55,6 +55,8 @@ class Subscriber:
                            series_type = models.SeriesType.SIGHT
                         elif range_event.get("series_type") == "MATCH":
                            series_type = models.SeriesType.MATCH
+                        elif range_event.get("series_type") == "SHOOTOFF":
+                           series_type = models.SeriesType.MATCH
                         db.add(
                             models.RangeEventShot(
                                 shooting_range=range_event.get("shootingRangeID"),

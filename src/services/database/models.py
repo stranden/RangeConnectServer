@@ -21,6 +21,7 @@ from .base import AuditMixin, Base, metadata
 class SeriesType(PyEnum):
     SIGHT = "sight"
     MATCH = "match"
+    SHOOTOFF = "shootoff"
 
 
 class RangeEventShooter(AuditMixin, Base):
