@@ -43,7 +43,7 @@ def upgrade() -> None:
     sa.Column('start_number', sa.String(), nullable=False),
     sa.Column('series_type', sa.Enum('SIGHT', 'MATCH', name='seriestype'), nullable=False),
     sa.Column('shot_id', sa.Integer(), nullable=False),
-    sa.Column('shot_value', sa.Integer(), nullable=False),
+    sa.Column('shot_value', sa.Float(), nullable=False),
     sa.Column('shot_value_decimal', sa.Float(), nullable=False),
     sa.Column('x_coord', sa.Float(), nullable=False),
     sa.Column('y_coord', sa.Float(), nullable=False),

@@ -1,8 +1,11 @@
 import aio_pika
 import asyncio
 import json
-from util import logger
 from aio_pika.abc import AbstractIncomingMessage
+from ..database import DBSession, models
+from sqlalchemy.orm import Session
+from util import logger
+
 
 class Subscriber:
 
@@ -12,9 +15,64 @@ class Subscriber:
 
     async def proccess_message(self, message: AbstractIncomingMessage) -> None:
         async with message.process(ignore_processed=True):
-            logger.info(f"Consumed message: {json.loads(message.body)}")
-            await asyncio.sleep(1)
-            await message.ack()
+            db: Session = DBSession()
+            range_event = json.loads(message.body)
+            
+            if range_event.get("scoreEventType") == "ATHLETE":
+                if range_event.get("startNumber") != "0":
+                    try:
+                        db.add(
+                            models.RangeEventShooter(
+                                shooting_range=range_event.get("shootingRangeID"),
+                                firing_point=range_event.get("firingPointID"),
+                                start_number=range_event.get("startNumber"),
+                                name=range_event.get("name"),
+                                club=range_event.get("team"),
+                                group=range_event.get("group")
+                            )
+                        )
+                        db.commit()
+                        logger.info(f"Inserted ATHLETE to DB: {range_event}")
+                    finally:
+                        db.close()
+                        await message.ack()
+                else:
+                    logger.info(f"ATHLETE is not inserted to DB: {range_event}")
+
+            elif range_event.get("scoreEventType") == "SHOT":
+                if range_event.get("startNumber") != "0":
+                    try:
+                        if range_event.get("series_type") == "SIGHTERS":
+                           series_type = models.SeriesType.SIGHT
+                        elif range_event.get("series_type") == "MATCH":
+                           series_type = models.SeriesType.MATCH
+                        db.add(
+                            models.RangeEventShot(
+                                shooting_range=range_event.get("shootingRangeID"),
+                                firing_point=range_event.get("firingPointID"),
+                                start_number=range_event.get("startNumber"),
+                                series_type=series_type,
+                                shot_id=range_event.get("shotID"),
+                                shot_value=range_event.get("shotValue"),
+                                shot_value_decimal=range_event.get("shotValueDecimal"),
+                                x_coord=range_event.get("xCoord"),
+                                y_coord=range_event.get("yCoord")
+                            )
+                        )
+                        db.commit()
+                        logger.info(f"Inserted SHOT to DB: {range_event}")
+                    finally:
+                        db.close()
+                        await message.ack()
+                else:
+                    logger.info(f"SHOT is not inserted to DB: {range_event}")
+
+
+    #async def proccess_message(self, message: AbstractIncomingMessage) -> None:
+    #    async with message.process(ignore_processed=True):
+    #        logger.info(f"Consumed message: {json.loads(message.body)}")
+    #        await asyncio.sleep(1)
+    #        await message.ack()
 
     async def subscribe_range_events(self) -> None:
         connection = await aio_pika.connect(self.amqp_connection_uri)

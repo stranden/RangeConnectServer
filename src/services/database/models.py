@@ -44,7 +44,7 @@ class RangeEventShot(AuditMixin, Base):
     start_number = Column(String, nullable=False)
     series_type = Column(Enum(SeriesType), nullable=False)
     shot_id = Column(Integer, nullable=False)
-    shot_value = Column(Integer, nullable=False)
+    shot_value = Column(Float, nullable=False)
     shot_value_decimal = Column(Float, nullable=False)
     x_coord = Column(Float, nullable=False)
     y_coord = Column(Float, nullable=False)
