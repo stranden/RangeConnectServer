@@ -16,7 +16,6 @@ services:
       - DATABASE_USER=rangeconnect
       - DATABASE_PASS=rangeconnect
       - DATABASE_DB=rangeconnect
-      - DATABASE_SCHEMA=rangeconnect
     networks:
       - range-connect
   postgres:
