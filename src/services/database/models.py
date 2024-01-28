@@ -28,7 +28,7 @@ class RangeEventShooter(AuditMixin, Base):
     __tablename__ = "range_event_shooter"
 
     id = Column(postgresql.UUID(as_uuid=True), primary_key=True, unique=True, index=True, default=uuid.uuid4)
-    shooting_range = Column(postgresql.UUID(as_uuid=True), nullable=True, index=True)
+    shooting_range_id = Column(postgresql.UUID(as_uuid=True), nullable=False, index=True)
     firing_point = Column(String, nullable=False)
     start_number = Column(String, nullable=False)
     name = Column(String, nullable=False)
@@ -40,7 +40,7 @@ class RangeEventShot(AuditMixin, Base):
     __tablename__ = "range_event_shot"
 
     id = Column(postgresql.UUID(as_uuid=True), primary_key=True, unique=True, index=True, default=uuid.uuid4)
-    shooting_range = Column(postgresql.UUID(as_uuid=True), nullable=False, index=True)
+    shooting_range_id = Column(postgresql.UUID(as_uuid=True), nullable=False, index=True)
     firing_point = Column(String, nullable=False)
     start_number = Column(String, nullable=False)
     series_type = Column(Enum(SeriesType), nullable=False)
