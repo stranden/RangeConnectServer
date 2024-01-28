@@ -31,6 +31,7 @@ def upgrade() -> None:
     sa.Column('created_date', sa.TIMESTAMP(), server_default=sa.text('now()'), nullable=True),
     sa.Column('modified_date', sa.TIMESTAMP(), server_default=sa.text('now()'), nullable=True),
     sa.PrimaryKeyConstraint('id'),
+    sa.PrimaryKeyConstraint('shooting_range_id'),
     schema='rcc'
     )
     op.create_index(op.f('ix_rcc_range_event_shooter_id'), 'range_event_shooter', ['id'], unique=True, schema='rcc')
@@ -49,6 +50,7 @@ def upgrade() -> None:
     sa.Column('created_date', sa.TIMESTAMP(), server_default=sa.text('now()'), nullable=True),
     sa.Column('modified_date', sa.TIMESTAMP(), server_default=sa.text('now()'), nullable=True),
     sa.PrimaryKeyConstraint('id'),
+    sa.PrimaryKeyConstraint('shooting_range_id'),
     schema='rcc'
     )
     op.create_index(op.f('ix_rcc_range_event_shot_id'), 'range_event_shot', ['id'], unique=True, schema='rcc')
