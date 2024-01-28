@@ -22,7 +22,7 @@ class Subscriber:
                 if range_event.get("startNumber") != "0":
                     shooter: models.RangeEventShooter = (db.query(models.RangeEventShooter)
                                                             .filter(
-                                                                models.RangeEventShooter.shooting_range == range_event.get("shootingRangeID"),
+                                                                models.RangeEventShooter.shooting_range_id == range_event.get("shootingRangeID"),
                                                                 models.RangeEventShooter.firing_point == range_event.get("firingPointID"),
                                                                 models.RangeEventShooter.start_number == range_event.get("startNumber"))
                                                             .first())
@@ -30,7 +30,7 @@ class Subscriber:
                         try:
                             db.add(
                                 models.RangeEventShooter(
-                                    shooting_range=range_event.get("shootingRangeID"),
+                                    shooting_range_id=range_event.get("shootingRangeID"),
                                     firing_point=range_event.get("firingPointID"),
                                     start_number=range_event.get("startNumber"),
                                     name=range_event.get("name"),
@@ -59,7 +59,7 @@ class Subscriber:
                            series_type = models.SeriesType.MATCH
                         db.add(
                             models.RangeEventShot(
-                                shooting_range=range_event.get("shootingRangeID"),
+                                shooting_range_id=range_event.get("shootingRangeID"),
                                 firing_point=range_event.get("firingPointID"),
                                 start_number=range_event.get("startNumber"),
                                 series_type=series_type,
