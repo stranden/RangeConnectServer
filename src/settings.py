@@ -11,5 +11,5 @@ DATABASE_HOST = os.getenv("DATABASE_HOST", default="localhost")
 DATABASE_USER = os.getenv("DATABASE_USER", default="rangeconnect")
 DATABASE_PASS = os.getenv("DATABASE_PASS", default="MzqGbe#o8AUn")
 DATABASE_DB = os.getenv("DATABASE_DB", default="rangeconnect")
-DATABASE_SCHEMA = "rcc"
+DATABASE_SCHEMA = "rcb"
 DATABASE_URI = f"postgresql://{DATABASE_USER}:{DATABASE_PASS}@{DATABASE_HOST}/{DATABASE_DB}"
